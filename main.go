@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,6 +10,10 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 )
+
+type response struct {
+	Token string `json:"Token"`
+}
 
 var mySigningKey = []byte(os.Getenv("SECRET_KEY"))
 
@@ -40,7 +45,11 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Failed to generate token")
 	}
 
-	fmt.Fprintf(w, string(validToken))
+	responseToken := response{
+		Token: validToken,
+	}
+
+	json.NewEncoder(w).Encode(responseToken)
 }
 
 func handleRequests() {
