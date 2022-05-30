@@ -10,7 +10,7 @@ RUN go mod download
 
 COPY *.go ./
 
-RUN go build -o /austhorization-service
+RUN go build -o /authorization-service
 
 EXPOSE 8080
 
